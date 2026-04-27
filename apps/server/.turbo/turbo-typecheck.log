@@ -1,0 +1,2 @@
+$ tsc --noEmit
+src/features/invites/cache.ts(53,43): error TS2339: Property 'connected' does not exist on type '{ userId: string; admin: boolean; banned: boolean; user: { name: string; image: string | null; }; }'.

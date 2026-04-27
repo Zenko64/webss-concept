@@ -1,0 +1,22 @@
+{
+  "name": "@webss/server",
+  "main": "main.ts",
+  "type": "module",
+  "scripts": {
+    "dev": "bun run main.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "private": true,
+  "devDependencies": {
+    "@types/bun": "latest",
+    "vite": "^8.0.9"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "@socket.io/bun-engine": "^0.1.1",
+    "@webss/types": "workspace:*",
+    "better-auth": "^1.6.7"
+  }
+}

@@ -1,0 +1,10 @@
+@import "tailwindcss";
+@import "./shad.css";
+@import "./containers/roomCardContainer.css";
+@import "./containers/screensContainer.css";
+
+body {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}

@@ -1,0 +1,34 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1777073650585,
+      "tag": "0000_tiresome_black_bird",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1777076396436,
+      "tag": "0001_damp_mach_iv",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1777236905602,
+      "tag": "0002_same_ricochet",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1777323589573,
+      "tag": "0003_steep_texas_twister",
+      "breakpoints": true
+    }
+  ]
+}

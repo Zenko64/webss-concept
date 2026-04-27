@@ -1,0 +1,13 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "composite": true,
+    "noEmit": false,
+    "emitDeclarationOnly": true,
+    "paths": {
+      "#/*": ["./src/*"]
+    }
+  },
+  "include": ["**/*"],
+  "exclude": ["node_modules/**/*", "dist/**/*", ".turbo/**/*"]
+}

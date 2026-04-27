@@ -1,0 +1,9 @@
+{
+  "workbench.iconTheme": "catppuccin-mocha",
+  "catppuccin-icons.associations.folders": {
+    "features": "folder_plugins",
+    // feature examples
+    "auth": "folder_security",
+    "rooms": "folder_content"
+  }
+}

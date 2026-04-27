@@ -1,0 +1,21 @@
+{
+  "name": "@webss/web",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "@webss/types": "workspace:*",
+    "react-grid-layout": "^2.2.3",
+    "react-hook-form": "^7.73.1",
+    "socket.io-client": "^4.8.3"
+  }
+}
