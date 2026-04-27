@@ -10,22 +10,36 @@ import type { AppEnv } from "#/shared/types/global";
 import inviteRoutes from "#/features/invites";
 import { cors } from "hono/cors";
 
-const io = new Server<ConnData>();
+const io = new Server<ConnData>({
+  cors: {
+    origin: true,
+    credentials: true,
+  },
+});
 const engine = new Engine({ path: "/api/socket/" });
 io.bind(engine);
 setupRoomHandlers(io);
 
+// cors conf, apply this to all different route branches
+const corsConfig = {
+  origin: (origin: string) => origin ?? env.appUrl,
+  credentials: true,
+  allowMethods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowHeaders: ["Content-Type", "Authorization"],
+};
+
 const authRoutes = new Hono<AppEnv>()
-  .use("*", cors())
+  .use("*", cors(corsConfig))
   .use(authMiddleware)
   .route("/rooms", createRoomsRouter(io));
 
 const routes = new Hono<AppEnv>()
-  .use("*", cors()) // TODO: This is a bad idea, it will be fixed latrer
+  .use("*", cors(corsConfig))
   .basePath("/api")
   .route("/auth", auth)
   .route("/", authRoutes)
   .route("/invite", inviteRoutes);
+
 const { websocket } = engine.handler();
 
 Bun.serve({

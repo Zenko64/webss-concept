@@ -16,7 +16,7 @@ export const auth = betterAuth({
     delete: async (key) => (await redis.del(key)).toString(),
   },
   plugins: [anonymous()],
-  trustedOrigins: [config.appUrl, "http://100.64.0.15:5173", "http://192.168.0.9:5173"],
+  trustedOrigins: [config.appUrl],
   baseURL: config.appUrl,
   secret: config.secret,
   emailAndPassword: { enabled: true },
