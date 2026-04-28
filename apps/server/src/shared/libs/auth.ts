@@ -27,6 +27,12 @@ export const auth = betterAuth({
           clientSecret: config.providers.github.clientSecret,
         }
       : undefined,
+    google: config.providers?.google
+      ? {
+          clientId: config.providers.google.clientId,
+          clientSecret: config.providers.google.clientSecret,
+        }
+      : undefined,
   },
 });
 
