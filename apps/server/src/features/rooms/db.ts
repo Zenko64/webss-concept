@@ -1,4 +1,4 @@
-import { and, eq, ilike, isNull } from "drizzle-orm";
+import { and, eq, ilike, inArray, isNull } from "drizzle-orm";
 import { rooms, usersRooms } from "../../core/db/schema";
 import { nanoid as mkNanoid } from "nanoid";
 import { transaction } from "#/core/db/utils";
@@ -47,35 +47,48 @@ export async function getUserRooms(userId: string, query?: string) {
   return await transaction(async (tx) => {
     const foundUser = await queryUser(tx, userId);
 
-    return await tx.query.user.findFirst({
-      where: () => eq(user.id, foundUser.id),
+    const targetRooms = await tx.query.rooms.findMany({
+      where: () => {
+        const conditions = [];
+        if (query) {
+          conditions.push(ilike(rooms.name, `%${query.replace(/%/g, "\\%")}%`));
+        }
+        conditions.push(
+          inArray(
+            rooms.id,
+            tx
+              .select({ roomId: usersRooms.roomId })
+              .from(usersRooms)
+              .where(
+                and(
+                  eq(usersRooms.userId, foundUser.id),
+                  isNull(usersRooms.leftAt),
+                ),
+              ),
+          ),
+        );
+        return and(...conditions);
+      },
+      columns: {
+        name: true,
+        nanoid: true,
+        ownerId: true,
+      },
       with: {
-        rooms: {
-          columns: {},
+        users: {
           with: {
-            room: {
+            user: {
               columns: {
                 name: true,
-                nanoid: true,
-                ownerId: true,
-              },
-              with: {
-                users: {
-                  with: {
-                    user: {
-                      columns: {
-                        name: true,
-                        image: true,
-                      },
-                    },
-                  },
-                },
+                image: true,
               },
             },
           },
         },
       },
     });
+
+    return { ...targetRooms, rooms: targetRooms.map((r) => ({ room: r })) };
   });
 }
 

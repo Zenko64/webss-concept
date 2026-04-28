@@ -2,12 +2,20 @@ import { useSelector } from "react-redux";
 import type { RootState } from "@/redux/store";
 import { RoomCard } from "./roomCard";
 import { Skeleton } from "../ui/skeleton";
-import { ScrollArea, ScrollBar } from "../ui/scroll-area";
+import { ScrollArea } from "../ui/scroll-area";
+import { fetchRooms } from "@/socket/manager";
+import { useEffect } from "react";
 
 export function RoomList({ query }: { query?: string }) {
   const rooms = useSelector((state: RootState) => state.rooms.list);
   const isLoading = useSelector((state: RootState) => state.rooms.loading);
   const isError = useSelector((state: RootState) => state.rooms.error);
+
+  useEffect(() => {
+    if (query) {
+      fetchRooms(query);
+    }
+  }, [query]);
 
   if (isLoading) {
     return (

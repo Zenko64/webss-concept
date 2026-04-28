@@ -34,6 +34,7 @@ export function Layout({ routes }: { routes?: Route[] }) {
   const { data, isPending } = authClient.useSession();
   const { form, submit } = useRoomForm();
   const [query, setQuery] = useState("");
+  const [newRoomDiagOpen, setNewRoomDiagOpen] = useState(false);
   const path = useLocation();
 
   const currentRoute = routes?.find((r) => r.path.includes(path.pathname));
@@ -50,15 +51,15 @@ export function Layout({ routes }: { routes?: Route[] }) {
         <Sidebar className="flex flex-col flex-1 h-full justify-between">
           <SidebarHeader>
             <span className="flex flex-row gap-2">
-              <Input 
-                placeholder="Search..." 
+              <Input
+                placeholder="Search..."
                 value={query}
                 onChange={(e) => {
                   setQuery(e.target.value);
                   fetchRooms(e.target.value);
                 }}
               />
-              <Dialog>
+              <Dialog open={newRoomDiagOpen} onOpenChange={setNewRoomDiagOpen}>
                 <DialogTrigger
                   render={
                     <Button size="icon">
@@ -77,10 +78,7 @@ export function Layout({ routes }: { routes?: Route[] }) {
                       render={({ field, fieldState }) => (
                         <Field className="gap-1.5">
                           <FieldLabel className="ml-1.25">Room Name</FieldLabel>
-                          <Input
-                            placeholder="Room Name"
-                            {...field}
-                          />
+                          <Input placeholder="Room Name" {...field} />
                           {fieldState.invalid && (
                             <FieldError
                               className="ml-2"
@@ -100,7 +98,13 @@ export function Layout({ routes }: { routes?: Route[] }) {
                       }
                     />
                     <Button
-                      onClick={() => form.handleSubmit(submit)()}
+                      onClick={() =>
+                        form.handleSubmit((data) =>
+                          submit(data, () => {
+                            setNewRoomDiagOpen(false);
+                          }),
+                        )()
+                      }
                       disabled={!form.formState.isValid}
                     >
                       <Plus />
@@ -113,7 +117,7 @@ export function Layout({ routes }: { routes?: Route[] }) {
           </SidebarHeader>
           <SidebarSeparator />
           <SidebarContent className="overflow-hidden">
-            <RoomList />
+            <RoomList query={query} />
           </SidebarContent>
           <SidebarFooter className="flex flex-row">
             <NavUser

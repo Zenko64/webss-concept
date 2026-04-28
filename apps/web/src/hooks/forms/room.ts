@@ -15,8 +15,13 @@ export function useRoomForm() {
     defaultValues: { name: "" },
   });
 
-  const submit = async (payload: z.infer<typeof schema>) => {
-    await mutateAsync(payload);
+  const submit = async (
+    payload: z.infer<typeof schema>,
+    onSuccess?: () => void,
+  ) => {
+    await mutateAsync(payload, {
+      onSuccess,
+    });
     form.reset();
   };
 
