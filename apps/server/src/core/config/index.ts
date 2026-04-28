@@ -44,6 +44,12 @@ const env = configSchema.safeParse({
           clientSecret: process.env.GITHUB_CLIENT_SECRET || "",
         }
       : undefined,
+    google: process.env.GOOGLE_CLIENT_ID
+      ? {
+          clientId: process.env.GOOGLE_CLIENT_ID,
+          clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
+        }
+      : undefined,
   },
 });
 
